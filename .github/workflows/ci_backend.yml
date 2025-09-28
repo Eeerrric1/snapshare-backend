@@ -1,0 +1,42 @@
+name: CI Backend - Testes e Qualidade
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # Estágio 1: Setup e Instalação
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install Dependencies
+      run: npm install
+      
+    # Estágio 2: Testes e Qualidade
+    - name: Run Linting and Static Analysis
+      run: npm run lint
+      
+    - name: Run Unit Tests
+      run: npm run test:unit
+      
+    - name: Run Integration Tests
+      # Configura um banco de dados temporário (se necessário) antes de rodar os testes
+      # Aqui usaremos um serviço de banco de dados temporário do próprio GitHub Actions
+      run: npm run test:integration
+      
+    # Estágio 3 (Preparo para Deploy/Docker - apenas para o CI):
+    # O empacotamento Docker e o push serão feitos no Pipeline de CD (Continuous Delivery/Deployment)
+    - name: Successful CI Check
+      run: echo "Integração Contínua (CI) concluída com sucesso. Código pronto para Empacotamento/Deploy."
