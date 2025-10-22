@@ -1,2 +1,0 @@
-Temos que fazer um padrão MVC(Model - View - Controller) para o snapshare 
-O objetivo é separar a lógica de negócios (os dados) da interface do usuário (a visualização).
